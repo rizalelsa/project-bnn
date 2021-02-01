@@ -9,7 +9,7 @@
                     <div class="sidebar-brand-icon">
                         <img src="<?= base_url('assets/img/'); ?>logobnn.png" width="80px"></img>
                     </div>
-                    <a class="navbar-brand text-dark" href="#">SIMPEL-BNNK Nganjuk</a>
+                    <a class="navbar-brand text-dark" href="">SIMPEL-BNNK Nganjuk</a>
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -53,6 +53,10 @@
                                 <a class="dropdown-item" href="<?= base_url('user/changepassword'); ?>">
                                     <i class="fas fa-key fa-sm fa-fw mr-2 text-dark-400"></i>
                                     Change Password
+                                </a>
+                                <a class="dropdown-item" href="<?= base_url('pelayanan/riwayat'); ?>">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-dark-400"></i>
+                                    Riwayat Permohonan
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="<?= base_url('auth/logout'); ?>" data-toggle="modal" data-target="#logoutModal">

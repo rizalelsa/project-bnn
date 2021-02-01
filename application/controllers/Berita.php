@@ -52,4 +52,71 @@ class Berita extends CI_Controller
             redirect('berita/index');
         }
     }
+
+    public function editBerita($id)
+    {
+        $data['title'] = 'Edit Berita';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->form_validation->set_rules('judul', 'Judul', 'required');
+        $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
+
+        if ($this->form_validation->run() ==  false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('berita/index', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $judul = $this->input->post('judul');
+            $deskripsi = $this->input->post('deskripsi');
+
+            $upload_file = $_FILES['gambar']['name'];
+
+            if ($upload_file) {
+                $config['allowed_types'] = 'jpeg|jpg|png|gif';
+                $config['max_size']      = '4096';
+                $config['upload_path'] = './assets/img/berita/';
+
+                $this->load->library('upload', $config);
+                if ($this->upload->do_upload('gambar')) {
+                    $new_file = $this->upload->data('file_name');
+                    $this->db->set('gambar', $new_file);
+                } else {
+                    echo $this->upload->dispay_errors();
+                }
+            }
+
+            $this->db->set('judul', $judul);
+            $this->db->set('deskripsi', $deskripsi);
+            $this->db->where('id', $id);
+            $this->db->update('berita');
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berita berhasil diupdate!</div>');
+            redirect('berita/index');
+        }
+    }
+
+    public function detailBerita()
+    {
+        $data['title'] = 'Detail Berita';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['berita'] = $this->db->get('berita')->result_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('berita/index', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function hapusBerita()
+    {
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['berita'] = $this->db->get('berita')->result_array();
+
+        $this->db->where('id', $this->input->post('id-data'));
+        $this->db->delete('berita');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil dihapus!</div>');
+        redirect('berita');
+    }
 }

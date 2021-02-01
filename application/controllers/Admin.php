@@ -13,12 +13,30 @@ class Admin extends CI_Controller
     {
         $data['title'] = 'Dashboard';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Pelayanan_model');
+        $data['sosialisasi'] = $this->Pelayanan_model->persetujuanPermohonan();
+        $data['total'] = $this->Pelayanan_model->getTotalData();
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('admin/index', $data);
-        $this->load->view('templates/footer');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/index', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->db->set('status', $this->input->post('status'));
+            $this->db->where('id', $this->input->post('id-status'))->update('permohonan_sosialisasi');
+            if ($this->input->post('status') == 'Disetujui') {
+
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Permohonan telah disetujui!</div>');
+                redirect('pelayanan');
+            } else {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Permohonan telah ditolak!</div>');
+                redirect('admin');
+            }
+        }
     }
 
 

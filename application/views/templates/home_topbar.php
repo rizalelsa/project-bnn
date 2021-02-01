@@ -9,7 +9,7 @@
                     <div class="sidebar-brand-icon">
                         <img src="<?= base_url('assets/img/'); ?>logobnn.png" width="80px"></img>
                     </div>
-                    <a class="navbar-brand text-dark" href="#">SIMPEL-BNNK Nganjuk</a>
+                    <a class="navbar-brand text-dark" href="<?= base_url('home/index'); ?>">SIMPEL-BNNK Nganjuk</a>
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
