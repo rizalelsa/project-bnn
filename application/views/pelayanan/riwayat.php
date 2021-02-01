@@ -24,7 +24,7 @@
                                 <?php foreach ($sosialisasi as $d) : ?>
                                     <tr>
                                         <th scope="row"><?= $i; ?></th>
-                                        <td><?= $d['name']; ?></td>
+                                        <td><?= $d['pemohon']; ?></td>
                                         <td><?= $d['nama_instansi']; ?></td>
                                         <td><?= $d['tanggal']; ?></td>
                                         <td><?= $d['waktu']; ?></td>
